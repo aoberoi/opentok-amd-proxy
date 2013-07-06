@@ -8,6 +8,11 @@ var server = http.createServer(function(req, res) {
 
   // get the remote javascript
   http.get('http://static.opentok.com/v1.1/js/TB.min.js', function(remoteRes) {
+    // set the response headers
+    for (var header in remoteRes.headers) {
+      res.setHeader(header, remoteRes.headers[header]);
+    }
+
     // pipe the transformed javascript back as the response
     remoteRes.pipe(ss).pipe(res);
   });
