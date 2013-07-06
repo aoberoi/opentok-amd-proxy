@@ -3,6 +3,18 @@ var ShimStream = require('./lib/shim-stream');
 
 var server = http.createServer(function(req, res) {
 
+  // Decide the script URL we are going to proxy
+  var scriptUrl;
+  if ( req.url === '/v1.1/js/TB.min.js' ||
+       req.url === '/webrtc/v2.0/js/TB.min.js' ) {
+    scriptUrl = 'http://static.opentok.com' + req.url;
+  } else {
+    // 404: this isn't one of the scripts we proxy
+    res.writeHead(404, 'not a script this server can proxy');
+    res.end();
+    return;
+  }
+
   // create a shim stream
   var ss = new ShimStream();
 
