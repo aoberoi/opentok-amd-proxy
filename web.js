@@ -19,7 +19,7 @@ var server = http.createServer(function(req, res) {
   var ss = new ShimStream();
 
   // get the remote javascript
-  http.get('http://static.opentok.com/v1.1/js/TB.min.js', function(remoteRes) {
+  http.get(scriptUrl, function(remoteRes) {
     // set the response headers
     for (var header in remoteRes.headers) {
       res.setHeader(header, remoteRes.headers[header]);
