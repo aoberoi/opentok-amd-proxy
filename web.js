@@ -1,12 +1,22 @@
-var express = require('express');
+var http = require('http');
+var ShimStream = require('./lib/shim-stream');
 
-var app = express.createServer(express.logger());
+var server = http.createServer(function(req, res) {
+  //http.get('', function(remoteRes) {
+  //  remoteRes.pipe(shimStream()).pipe(res);
+  //});
 
-app.get('/', function(request, response) {
-  response.send('Hello World!');
+  // create a shim stream
+  var ss = new ShimStream();
+
+  ss.pipe(res);
+
+  ss.end('hello');
 });
 
 var port = process.env.PORT || 5000;
-app.listen(port, function() {
+server.listen(port, function() {
   console.log("Listening on " + port);
 });
+
+
